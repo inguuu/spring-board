@@ -1,0 +1,10 @@
+diff a/study4/src/main/java/com/example/study4/service/impl/BoardServiceImpl.java b/study4/src/main/java/com/example/study4/service/impl/BoardServiceImpl.java	(rejected hunks)
+@@ -28,7 +28,7 @@
+     public DefaultRes<List<Board>> findAll() {
+         List<Board> boardList = boardMapper.findAll();
+         if(boardList.isEmpty()){
+-            return  DefaultRes.res(HttpStatus.NO_CONTENT.value(),"유저 정보가 없습니다.");
++            return  DefaultRes.res(HttpStatus.NO_CONTENT.value(),"게시글이 없습니다.");
+         }else{
+             return DefaultRes.res(HttpStatus.OK.value(), "조회 성공", boardList);
+         }
