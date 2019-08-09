@@ -1,6 +1,7 @@
 package com.example.study5.mapper;
 
 import com.example.study5.dto.Board;
+import com.example.study5.model.BoardReq;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,5 +19,5 @@ public interface BoardMapper {
     Board findIdx(@Param("boardIdx") int boardIdx);
 
     @Insert("INSERT INTO board(title,content) VALUES(#{board.title},#{board.content})")
-    void insert(@Param("board") Board board);
+    void insert(@Param("board") BoardReq board);
 }

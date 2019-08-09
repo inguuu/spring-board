@@ -2,8 +2,10 @@ package com.example.study5.service.impl;
 
 import com.example.study5.dto.Board;
 import com.example.study5.mapper.BoardMapper;
+import com.example.study5.model.BoardReq;
 import com.example.study5.model.DefaultRes;
 import com.example.study5.service.BoardService;
+import com.example.study5.service.S3FileUploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +18,12 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
+    private final S3FileUploadService s3FileUploadService;
 
     @Autowired
-    public BoardServiceImpl(BoardMapper boardMapper) {
+    public BoardServiceImpl(BoardMapper boardMapper, S3FileUploadService s3FileUploadService) {
         this.boardMapper = boardMapper;
+        this.s3FileUploadService = s3FileUploadService;
     }
 
 
@@ -46,7 +50,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public DefaultRes insert(Board board) {
+    public DefaultRes insert(BoardReq board) {
+        BoardReq.setUrl()
          boardMapper.insert(board);
         return DefaultRes.res(HttpStatus.OK.value(), "등록 성공");
     }
