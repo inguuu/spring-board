@@ -4,6 +4,7 @@ package com.example.study5.api;
 import com.example.study5.dto.Board;
 import com.example.study5.model.BoardReq;
 import com.example.study5.model.DefaultRes;
+import com.example.study5.model.Test;
 import com.example.study5.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -44,15 +45,22 @@ public class BoardController {
         }
     }
     @PostMapping("/board")
-    public ResponseEntity findAllBoards(BoardReq board, @RequestPart(value ="profile",required = false) MultipartFile profile) {
+    public ResponseEntity insertBoard(BoardReq boardreq, @RequestPart(value ="profile",required = false) MultipartFile profile) {
         try {
-            return new ResponseEntity<>(boardService.insert(board), HttpStatus.OK);
+            //log.info(profile+"=======");
+            if(profile != null) boardreq.setProfile(profile);
+            return new ResponseEntity<>(boardService.insert(boardreq), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             DefaultRes<Board> ISR = new DefaultRes<>(HttpStatus.INTERNAL_SERVER_ERROR,"서버 내부 오류" );
             return new ResponseEntity<>(ISR, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PostMapping("/test")
+    public ResponseEntity test(Test test, @RequestPart(value ="profile",required = false) MultipartFile profile) {
+        if(profile != null) test.setProfile(profile);
+        return new ResponseEntity<>(boardService.test(test), HttpStatus.OK);
 
+    }
 
 }

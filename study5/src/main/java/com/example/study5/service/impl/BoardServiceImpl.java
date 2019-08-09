@@ -4,13 +4,16 @@ import com.example.study5.dto.Board;
 import com.example.study5.mapper.BoardMapper;
 import com.example.study5.model.BoardReq;
 import com.example.study5.model.DefaultRes;
+import com.example.study5.model.Test;
 import com.example.study5.service.BoardService;
 import com.example.study5.service.S3FileUploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -49,10 +52,31 @@ public class BoardServiceImpl implements BoardService {
 
     }
 
+
     @Override
-    public DefaultRes insert(BoardReq board) {
-        BoardReq.setUrl()
-         boardMapper.insert(board);
-        return DefaultRes.res(HttpStatus.OK.value(), "등록 성공");
+    public DefaultRes insert(BoardReq boardreq) {
+        try {
+            boardreq.setUrl(s3FileUploadService.upload(boardreq.getProfile()));
+            log.info(boardreq.getUrl());
+            boardMapper.insert(boardreq);
+            return DefaultRes.res(HttpStatus.OK.value(), "등록 성공");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return DefaultRes.res(500, "DB 에러");
+        }
+
+    }
+
+    @Override
+    public DefaultRes test(Test test) {
+        try {
+            test.setUrl(s3FileUploadService.upload(test.getProfile()));
+            log.info(test.getUrl());
+            boardMapper.test(test);
+            return DefaultRes.res(HttpStatus.OK.value(), "등록 성공");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return DefaultRes.res(HttpStatus.OK.value(), "DB 에러");
+        }
     }
 }
