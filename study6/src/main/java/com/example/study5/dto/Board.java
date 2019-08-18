@@ -9,5 +9,5 @@ public class Board {
     private int idx;
     private String title;
     private String content;
-
+    private String url;
 }
